@@ -19,6 +19,7 @@ return [
     'agregarProducto'=> 'Agregar nuevo producto',
     'activo'=> 'Estatus',
     'acciones'=> 'Acciones',
+    'proyeccion'=> 'Proyección de precios ',
 
 
 ];

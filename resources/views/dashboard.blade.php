@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight" style="font-size: 15px">
             {!! trans('sistema.productos') !!}
         </h2>
         <a
@@ -48,15 +48,15 @@
                                 <td>Inactivo</td>
                             @endif
                             <td>
-                                <button
+                             <!--   <a href="{{ route('obtenerDetalle', [app()->getLocale(),  $prod->url]) }}">Link to home with lang</a>-->
+                                <a
                                     id="detalle"
-                                    type="button"
                                     class="btn btn-sm btn-outline-success"
                                     title="Ver detalle"
-
+                                    href="{{ route('obtenerDetalle',  [$prod->url] ) }}"
                                 >
                                     <i class="fa-regular fa-eye"></i>
-                                </button>
+                                </a>
 
                                 <a
                                     href="{{url('admin/editar').'/'.$prod->id_producto}}"

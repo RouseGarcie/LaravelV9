@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight" style="font-size: 14px">
+        <h2 class="font-semibold text-xl text-gray-800 leading-tight" style="font-size: 15px">
             {!! trans('sistema.agregarProducto') !!}
         </h2>
 
@@ -11,8 +11,16 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-
-
+                    @if (!$errors->productos->isEmpty())
+                        *******
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <form id="formProd" >
                         @method('post')
                         @csrf
@@ -37,50 +45,65 @@
                                        value="{{old('precioDolares', $prod['precioDolares'])}}"
                                        placeholder=' {!! trans('sistema.precioDolares') !!} ' required><br>
 
+
+
                                 <div class="card">
-                                    <div class="card-header">
-                                        <span> {!! trans('sistema.detalleCabecera') !!}          </span>
-                                    </div>
-                                    <div class="card-body">
-                                        <label for="nombre">{!! trans('sistema.nombre') !!}</label>
-                                        <input type="text"
-                                               name="nombreEs"
-                                               id="nombreEs"
-                                               class="form-control validacion"
-                                               maxlength="100"
-                                               value="{{old('nombreEs', $prod['nombreEs'])}}"
-                                               onblur="armarUrlEs()"
-                                               placeholder="{!! trans('sistema.nombre') !!}"
-                                               required
-                                        ><br>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                            <div class="card-header">
 
-                                        <label for="descripcionCortaEs">{!! trans('sistema.descripcionCorta') !!}</label>
-                                        <input type="text"
-                                               name="descripcionCortaEs"
-                                               id="descripcionCortaEs"
-                                               class="form-control"
-                                               maxlength="100"
-                                               value="{{old('descripcionCortaEs', $prod['descripcionCortaEs'])}}"
-                                               placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+                                                    <span>{!! trans('sistema.detalleCabecera') !!}</span>
+                                                </button>
 
-                                        <label for="descripcionLargaEs">{!! trans('sistema.descripcionLarga') !!}</label>
-                                        <input type="text"
-                                               name="descripcionLargaEs"
-                                               id="descripcionLargaEs"
-                                               class="form-control"
-                                               maxlength="100"
-                                               value="{{old('descripcionLargaEs', $prod['descripcionLargaEs'])}}"
-                                               placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
+                                            </div>
+                                        </h2>
+                                        <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-headingThree">
+                                            <div class="accordion-body">
+                                                <div class="card-body">
+                                                    <label for="nombre">{!! trans('sistema.nombre') !!}</label>
+                                                    <input type="text"
+                                                           name="nombreEs"
+                                                           id="nombreEs"
+                                                           class="form-control validacion"
+                                                           maxlength="100"
+                                                           value="{{old('nombreEs', $prod['nombreEs'])}}"
+                                                           onblur="armarUrlEs()"
+                                                           placeholder="{!! trans('sistema.nombre') !!}"
+                                                           required
+                                                    ><br>
 
-                                        <input type="text"
-                                               name="urlEs"
-                                               id="urlEs"
-                                               value="{{old('urlEs', $prod['urlEs'])}}"
-                                               hidden
-                                               class="form-control"
-                                               maxlength="100"><br>
+                                                    <label for="descripcionCortaEs">{!! trans('sistema.descripcionCorta') !!}</label>
+                                                    <input type="text"
+                                                           name="descripcionCortaEs"
+                                                           id="descripcionCortaEs"
+                                                           class="form-control"
+                                                           maxlength="100"
+                                                           value="{{old('descripcionCortaEs', $prod['descripcionCortaEs'])}}"
+                                                           placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
+
+                                                    <label for="descripcionLargaEs">{!! trans('sistema.descripcionLarga') !!}</label>
+                                                    <input type="text"
+                                                           name="descripcionLargaEs"
+                                                           id="descripcionLargaEs"
+                                                           class="form-control"
+                                                           maxlength="100"
+                                                           value="{{old('descripcionLargaEs', $prod['descripcionLargaEs'])}}"
+                                                           placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
+
+                                                    <input type="text"
+                                                           name="urlEs"
+                                                           id="urlEs"
+                                                           value="{{old('urlEs', $prod['urlEs'])}}"
+                                                           hidden
+                                                           class="form-control"
+                                                           maxlength="100"><br>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
 
 
                             </div>
@@ -106,48 +129,65 @@
                                        placeholder="{!! trans('sistema.precioPesos') !!}" required><br>
 
 
+
                                 <div class="card">
-                                    <div class="card-header">
-                                        <span>{!! trans('sistema.detalleCabecera2') !!}</span>
-                                    </div>
-                                    <div class="card-body">
-                                        <label for="nombre">{!! trans('sistema.nombre') !!}</label>
-                                        <input type="text"
-                                               name="nombreEn"
-                                               id="nombreEn"
-                                               onblur="armarUrlEn()"
-                                               class="form-control validacion"
-                                               maxlength="100"
-                                               value="{{old('nombreEn', $prod['nombreEn'])}}"
-                                               placeholder="{!! trans('sistema.nombre') !!}" required><br>
+                                    <div class="accordion-item">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                        <div class="card-header">
 
-                                        <label for="descripcionCortaEn">{!! trans('sistema.descripcionCorta') !!}</label>
-                                        <input type="text"
-                                               name="descripcionCortaEn"
-                                               id="descripcionCortaEn"
-                                               class="form-control"
-                                               maxlength="100"
-                                               value="{{old('descripcionCortaEn', $prod['descripcionCortaEn'])}}"
-                                               placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
+                                                <button class="accordion-button collapsed" type="button"
+                                                        data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo"
+                                                        aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo" >
+                                                    <span>{!! trans('sistema.detalleCabecera2') !!}</span>
+                                                </button>
 
-                                        <label for="descripcionLargaEn">{!! trans('sistema.descripcionLarga') !!}</label>
-                                        <input type="text"
-                                               name="descripcionLargaEn"
-                                               id="descripcionLargaEn"
-                                               class="form-control"
-                                               maxlength="100"
-                                               value="{{old('descripcionLargaEn', $prod['descripcionLargaEn'])}}"
-                                               placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
+                                        </div>
+                                        </h2>
+                                    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse " aria-labelledby="panelsStayOpen-headingTwo">
+                                        <div class="accordion-body">
+                                            <div class="card-body">
+                                            <label for="nombre">{!! trans('sistema.nombre') !!}</label>
+                                            <input type="text"
+                                                   name="nombreEn"
+                                                   id="nombreEn"
+                                                   onblur="armarUrlEn()"
+                                                   class="form-control validacion"
+                                                   maxlength="100"
+                                                   value="{{old('nombreEn', $prod['nombreEn'])}}"
+                                                   placeholder="{!! trans('sistema.nombre') !!}" required><br>
 
-                                        <input type="text"
-                                               name="urlEn"
-                                               id="urlEn"
-                                               value="{{old('urlEn', $prod['urlEn'])}}"
-                                               hidden
-                                               class="form-control"
-                                               maxlength="100"><br>
+                                            <label for="descripcionCortaEn">{!! trans('sistema.descripcionCorta') !!}</label>
+                                            <input type="text"
+                                                   name="descripcionCortaEn"
+                                                   id="descripcionCortaEn"
+                                                   class="form-control"
+                                                   maxlength="100"
+                                                   value="{{old('descripcionCortaEn', $prod['descripcionCortaEn'])}}"
+                                                   placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
+
+                                            <label for="descripcionLargaEn">{!! trans('sistema.descripcionLarga') !!}</label>
+                                            <input type="text"
+                                                   name="descripcionLargaEn"
+                                                   id="descripcionLargaEn"
+                                                   class="form-control"
+                                                   maxlength="100"
+                                                   value="{{old('descripcionLargaEn', $prod['descripcionLargaEn'])}}"
+                                                   placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
+
+                                            <input type="text"
+                                                   name="urlEn"
+                                                   id="urlEn"
+                                                   value="{{old('urlEn', $prod['urlEn'])}}"
+                                                   hidden
+                                                   class="form-control"
+                                                   maxlength="100"><br>
+                                        </div>
+                                        </div>
                                     </div>
                                 </div>
+                                </div>
+
+
 
                             </div>
                         </div>
@@ -181,7 +221,7 @@
     function armarUrlEn() {
         let nombreEn = document.getElementById('nombreEn').value;
 
-        let urlEn = nombreEn+"/en"
+        let urlEn = nombreEn+"-en"
 
         document.getElementById("urlEn").value = urlEn;
         return urlEn;
@@ -190,7 +230,7 @@
     function armarUrlEs() {
         let nombreEs = document.getElementById('nombreEs').value;
 
-        let urlEs = nombreEs + "/es"
+        let urlEs = nombreEs + "-es"
 
         document.getElementById("urlEs").value = urlEs;
         return urlEs;
@@ -212,6 +252,9 @@
 var metodo = {
     probar:function () {
 
+        const param = {
+
+        }
 
 
         Swal.fire({
@@ -242,8 +285,6 @@ var metodo = {
                     }
                 ).then(res => {
                     console.info(res, "*********Response*********")
-                }).catch(function (err) {
-                    console.log(err, "Error");
                 })
             }
             })

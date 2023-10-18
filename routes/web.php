@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use Spatie\Sluggable\SlugOptions;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,8 +37,10 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::post('/conversionMonedaDolar', [\App\Http\Controllers\ProductosController::class, 'conversionDolar'])->name('conversionDolar');
 
 
- //   Route::get('/{slug}', [\App\Http\Controllers\ProductosController::class, 'editar'])->name('editar');
+    Route::get('/{slug}', [\App\Http\Controllers\ProductosController::class, 'obtenerDetalle'])->name('obtenerDetalle');
     Route::get('/editar/{id}', [\App\Http\Controllers\ProductosController::class, 'editar'])->name('editar');
+  //  Route::get('/{slug}', 'ProductosController')->name('home.post');
+
 
 
 });

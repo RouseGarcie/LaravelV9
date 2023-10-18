@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
 class ProductosController extends Controller
@@ -54,21 +55,51 @@ class ProductosController extends Controller
         return view('productos.AgregarProductos',  ['prod' => $prod]);
     }
 
-    public function guardar(Request $datos)
+    private function validaciones($datos)
     {
 
-       // try{
+
+        $validatedData = $datos->validateWithBag('productos', [
+            'sku' => ['required', 'unique:m_productos,sku'],
+            'precioDolares' => ['required', 'numeric'],
+            'precioPesos' => ['required', 'numeric'],
+            'puntos' => ['required', 'numeric'],
+
+            'nombreEs' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'descripcionCortaEs' => ['required'],
+            'urlEs' => ['required'],
+
+            'nombreEn' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'descripcionCortaEn' => ['required'],
+            'urlEn' => ['required'],
+        ]);
+
+        return redirect('/admin/agregar')->withErrors($validatedData, 'productos');
+
+      //  return redirect()->back()->withErrors($validatedData,'productos');
+
+       // return $validatedData;
+    }
+
+    public function guardar(Request $datos):View
+    {
+
+     //   try{
+        $this->validaciones($datos);
+
 
            $prod = Productos::guardarProducto($datos);
 
             ProductoTraducciones::guardarIngles($datos, $prod);
             ProductoTraducciones::guardarEspaniol($datos, $prod);
 
-            return $this->index();
 
-        /*}catch (\Exception $e){
-            Log::error($e->getMessage());
-            return back()->with('status','Ocurrió un error, revise los datos');
+
+          return $this->index();
+
+    /*} catch (\Exception $ex) {
+        Log::error($ex->getMessage());
+        return Redirect::back()->withInput()->withErrors();
         } */
     }
 
@@ -99,6 +130,7 @@ class ProductosController extends Controller
 
     public function editar($productoId): View
     {
+
         try {
 
             $prod = Productos::obtenerProducto($productoId);
@@ -109,6 +141,32 @@ class ProductosController extends Controller
 
             return $this->index();
         }
+
+    }
+
+
+    public function obtenerDetalle($slug):View
+    {
+        $news = ProductoTraducciones::join('m_productos as prod', 'prod.id', '=', 'r_producto_traducciones.id' )
+            ->where('url', $slug)->firstOrFail();
+
+
+        $prod = [
+            "id" => $news->id,
+            "sku" => $news->sku,
+            "precioDolares" => $news->precio_dolares,
+            "precioPesos" => $news->precio_pesos,
+            "puntos" => $news->puntos,
+            "nombre" => $news->nombre,
+            "descripcionCorta" => $news->descripcion_corta,
+            "descripcionLarga" => $news->descripcion_larga,
+
+
+
+        ];
+
+
+        return view('productos.DetalleGrafica', ['prod' => $prod]);
 
     }
 
