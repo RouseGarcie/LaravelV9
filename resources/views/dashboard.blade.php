@@ -8,7 +8,8 @@
            class="btn btn-sm btn-info"
            style="position: absolute; top: 89px; left: 85%; text-decoration: none"
            href="{{route('agregar')}}"
-           data-bs-toggle="tooltip" data-bs-placement="top" title="Agregar productos">
+           data-bs-toggle="tooltip" data-bs-placement="top"
+           title="{!! trans('sistema.agregarProducto') !!}">
             <i class="fa-solid fa-plus"></i>
         </a>
     </x-slot>
@@ -36,10 +37,10 @@
                         @php $i=1; @endphp
                         @foreach($productos as $prod)
                         <tr>
-                            <td>{{$prod->id}}</td>
+                            <td>{{$prod->id_producto}}</td>
                             <td>{{$prod->sku}}</td>
-                            <td>{{$prod->precio_dolares}}</td>
-                            <td>{{$prod->precio_pesos}}</td>
+                            <td>${{$prod->precio_dolares}}</td>
+                            <td>${{$prod->precio_pesos}}</td>
                             <td>{{$prod->puntos}}</td>
                             @if($prod->registro_activo === 1)
                                 <td>Activo</td>
@@ -52,14 +53,13 @@
                                     type="button"
                                     class="btn btn-sm btn-outline-success"
                                     title="Ver detalle"
-                                    data-bs-toggle="modal" data-bs-target="#exampleModal"
 
                                 >
                                     <i class="fa-regular fa-eye"></i>
                                 </button>
 
                                 <a
-                                    href="{{url('editar').'/'.$prod->id}}"
+                                    href="{{url('admin/editar').'/'.$prod->id_producto}}"
                                     type="button"
                                     class="btn btn-sm btn-outline-warning"
                                     title="Editar"
@@ -82,26 +82,6 @@
                         </tbody>
                     </table>
 
-
-
-
-                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered modal-lg">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                   ************
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <!--<button type="button" class="btn btn-primary">Save changes</button> -->
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
 
                 </div>

@@ -32,6 +32,12 @@ Route::middleware('auth')->prefix('admin')->group(function () {
     Route::get('/agregar', [\App\Http\Controllers\ProductosController::class, 'agregar'])->name('agregar');
     Route::post('/producto/guardar', [\App\Http\Controllers\ProductosController::class, 'guardar'])->name('guardar');
 
+    Route::post('/conversionMonedaPesos', [\App\Http\Controllers\ProductosController::class, 'conversionPesos'])->name('conversionPesos');
+    Route::post('/conversionMonedaDolar', [\App\Http\Controllers\ProductosController::class, 'conversionDolar'])->name('conversionDolar');
+
+
+ //   Route::get('/{slug}', [\App\Http\Controllers\ProductosController::class, 'editar'])->name('editar');
+    Route::get('/editar/{id}', [\App\Http\Controllers\ProductosController::class, 'editar'])->name('editar');
 
 
 });

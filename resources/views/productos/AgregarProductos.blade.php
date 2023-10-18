@@ -13,7 +13,7 @@
                 <div class="p-6 text-gray-900">
 
 
-                    <form id="formProd" method="post" action="{{url('admin/producto/guardar')}}">
+                    <form id="formProd" >
                         @method('post')
                         @csrf
 
@@ -25,6 +25,7 @@
                                        id="sku"
                                        class="form-control"
                                        maxlength="100"
+                                       value="{{old('sku', $prod['sku'])}}"
                                        placeholder="{!! trans('sistema.sku') !!}" required><br>
 
                                 <label for="precioDolares">{!! trans('sistema.precioDolares') !!}</label>
@@ -33,6 +34,7 @@
                                        id="precioDolares"
                                        class="form-control"
                                        maxlength="100"
+                                       value="{{old('precioDolares', $prod['precioDolares'])}}"
                                        placeholder=' {!! trans('sistema.precioDolares') !!} ' required><br>
 
                                 <div class="card">
@@ -46,30 +48,34 @@
                                                id="nombreEs"
                                                class="form-control validacion"
                                                maxlength="100"
+                                               value="{{old('nombreEs', $prod['nombreEs'])}}"
                                                onblur="armarUrlEs()"
                                                placeholder="{!! trans('sistema.nombre') !!}"
                                                required
                                         ><br>
 
-                                        <label for="nombre">{!! trans('sistema.descripcionCorta') !!}</label>
+                                        <label for="descripcionCortaEs">{!! trans('sistema.descripcionCorta') !!}</label>
                                         <input type="text"
                                                name="descripcionCortaEs"
                                                id="descripcionCortaEs"
                                                class="form-control"
                                                maxlength="100"
+                                               value="{{old('descripcionCortaEs', $prod['descripcionCortaEs'])}}"
                                                placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
 
-                                        <label for="nombre">{!! trans('sistema.descripcionLarga') !!}</label>
+                                        <label for="descripcionLargaEs">{!! trans('sistema.descripcionLarga') !!}</label>
                                         <input type="text"
                                                name="descripcionLargaEs"
                                                id="descripcionLargaEs"
                                                class="form-control"
                                                maxlength="100"
+                                               value="{{old('descripcionLargaEs', $prod['descripcionLargaEs'])}}"
                                                placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
 
                                         <input type="text"
                                                name="urlEs"
                                                id="urlEs"
+                                               value="{{old('urlEs', $prod['urlEs'])}}"
                                                hidden
                                                class="form-control"
                                                maxlength="100"><br>
@@ -87,6 +93,7 @@
                                        class="form-control"
                                        maxlength="100"
                                        min="0"
+                                       value="{{old('puntos', $prod['puntos'])}}"
                                        placeholder="{!! trans('sistema.puntos') !!}" required><br>
 
                                 <label for="precioPesos">{!! trans('sistema.precioPesos') !!}</label>
@@ -95,6 +102,7 @@
                                        id="precioPesos"
                                        class="form-control"
                                        maxlength="100"
+                                       value="{{old('precioPesos', $prod['precioPesos'])}}"
                                        placeholder="{!! trans('sistema.precioPesos') !!}" required><br>
 
 
@@ -110,27 +118,31 @@
                                                onblur="armarUrlEn()"
                                                class="form-control validacion"
                                                maxlength="100"
+                                               value="{{old('nombreEn', $prod['nombreEn'])}}"
                                                placeholder="{!! trans('sistema.nombre') !!}" required><br>
 
-                                        <label for="nombre">{!! trans('sistema.descripcionCorta') !!}</label>
+                                        <label for="descripcionCortaEn">{!! trans('sistema.descripcionCorta') !!}</label>
                                         <input type="text"
                                                name="descripcionCortaEn"
                                                id="descripcionCortaEn"
                                                class="form-control"
                                                maxlength="100"
+                                               value="{{old('descripcionCortaEn', $prod['descripcionCortaEn'])}}"
                                                placeholder="{!! trans('sistema.descripcionCorta') !!}" required><br>
 
-                                        <label for="nombre">{!! trans('sistema.descripcionLarga') !!}</label>
+                                        <label for="descripcionLargaEn">{!! trans('sistema.descripcionLarga') !!}</label>
                                         <input type="text"
                                                name="descripcionLargaEn"
                                                id="descripcionLargaEn"
                                                class="form-control"
                                                maxlength="100"
+                                               value="{{old('descripcionLargaEn', $prod['descripcionLargaEn'])}}"
                                                placeholder="{!! trans('sistema.descripcionLarga') !!}" ><br>
 
                                         <input type="text"
                                                name="urlEn"
                                                id="urlEn"
+                                               value="{{old('urlEn', $prod['urlEn'])}}"
                                                hidden
                                                class="form-control"
                                                maxlength="100"><br>
@@ -142,7 +154,12 @@
                         <p></p>
 
                         <div class="d-grid col-6 mx-auto">
-                            <button type="submit" class="btn btn-success"  > Guardar</button>
+                            @if($prod['puntos'] === null)
+                                <button type="button" id="guardar" class="btn btn-success" > Guardar</button>
+                            @else
+                                <button type="button" id="editar" class="btn btn-warning" > Editar</button>
+                            @endif
+
                         </div>
 
                     </form>
@@ -159,6 +176,7 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 <script>
+
 
     function armarUrlEn() {
         let nombreEn = document.getElementById('nombreEn').value;
@@ -181,7 +199,18 @@
 
 
 
-    function probar(){
+
+    var laravelToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    $(document).ready( function () {
+        $(document).on('click', '#guardar', function () {
+            console.log("Hacemos algo ?? ")
+            metodo.probar();
+        });
+
+    });
+
+var metodo = {
+    probar:function () {
 
 
 
@@ -196,27 +225,46 @@
         }).then((result) => {
             if (result.isConfirmed) {
 
-                var body = {
-                    sku: document.getElementById('sku'),
-                }
-
-                axios({
-                    method: "post",
-                    url: '/admin/producto/guardar',
-                    data: body,
-                    headers: { "Content-Type": "multipart/form-data" },
+                axios.post("{{route('guardar')}}",
+                    {
+                        sku: document.getElementById('sku').value,
+                        puntos: document.getElementById('puntos').value,
+                        precioDolares: document.getElementById('precioDolares').value,
+                        precioPesos: document.getElementById('precioPesos').value,
+                        nombreEs: document.getElementById('nombreEs').value,
+                        descripcionCortaEs: document.getElementById('descripcionCortaEs').value,
+                        descripcionLargaEs: document.getElementById('descripcionLargaEs').value,
+                        urlEs: document.getElementById('urlEs').value,
+                        nombreEn: document.getElementById('nombreEn').value,
+                        descripcionCortaEn: document.getElementById('descripcionCortaEn').value,
+                        descripcionLargaEn: document.getElementById('descripcionLargaEn').value,
+                        urlEn: document.getElementById('urlEn').value,
+                    }
+                ).then(res => {
+                    console.info(res, "*********Response*********")
+                }).catch(function (err) {
+                    console.log(err, "Error");
                 })
-                    .then(function (response) {
-                        //handle success
-                        console.log(response);
-                    })
-                    .catch(function (response) {
-                        //handle error
-                        console.log(response);
-                    });
             }
-        })
+            })
+        }
+
     }
+
+
+    $(document).ready(() => {
+        $(document).on("keyup", '#precioDolares', function () {
+            axios.post("{{route('conversionPesos')}}", {precio: $("#precioDolares").val()}).then(res => {
+                $("#precioPesos").val(res.data)
+            })
+        });
+        $(document).on("keyup", '#precioPesos', function () {
+            axios.post("{{route('conversionDolar')}}", {precio: $("#precioPesos").val()}).then(res => {
+                $("#precioDolares").val(res.data)
+            })
+        });
+    });
+
 
 
     jQuery('.validacion').keypress(function (tecla) {

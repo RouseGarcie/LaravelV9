@@ -6,7 +6,7 @@ use http\Env\Request;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class productoTraducciones extends Model
+class ProductoTraducciones extends Model
 {
     use HasFactory;
     protected $table = 'r_producto_traducciones';
@@ -36,5 +36,17 @@ class productoTraducciones extends Model
         $espaniol -> url = $datos['urlEs'];
         $espaniol -> idioma = 'es';
         $espaniol -> save();
+    }
+
+    public static function obtenerEspaniol($id)
+    {
+        $dato = self::where('id_producto',$id)->where('idioma','es')->first();
+        return $dato;
+    }
+
+    public static function obtenerIngles($id)
+    {
+        $dato = self::where('id_producto',$id)->where('idioma','en')->first();
+        return $dato;
     }
 }
