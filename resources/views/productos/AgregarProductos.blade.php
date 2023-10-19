@@ -11,16 +11,15 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    @if (!$errors->productos->isEmpty())
-                        *******
-                        <div class="alert alert-danger">
-                            <ul>
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
-                    @endif
+
+                @if($errors->productos->any())
+                    *******************
+                    @foreach($errors->productos->errors as $p)
+                        {{$p}}
+                    @endforeach
+                @endif
+
+
                     <form id="formProd" >
                         @method('post')
                         @csrf
@@ -49,7 +48,7 @@
 
                                 <div class="card">
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingThree" style="background-color: cadetblue; color: #ffffff">
                                             <div class="card-header">
 
                                                 <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
@@ -132,7 +131,7 @@
 
                                 <div class="card">
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                        <h2 class="accordion-header" id="panelsStayOpen-headingTwo" style="background-color: cadetblue; color: #ffffff">
                                         <div class="card-header">
 
                                                 <button class="accordion-button collapsed" type="button"
@@ -218,6 +217,8 @@
 <script>
 
 
+
+
     function armarUrlEn() {
         let nombreEn = document.getElementById('nombreEn').value;
 
@@ -252,10 +253,6 @@
 var metodo = {
     probar:function () {
 
-        const param = {
-
-        }
-
 
         Swal.fire({
             //title: '¿Esta seguro?',
@@ -264,7 +261,8 @@ var metodo = {
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Guardar'
+            confirmButtonText: 'Guardar',
+            cancelButtonText: 'No estoy seguro/a'
         }).then((result) => {
             if (result.isConfirmed) {
 
@@ -284,7 +282,24 @@ var metodo = {
                         urlEn: document.getElementById('urlEn').value,
                     }
                 ).then(res => {
-                    console.info(res, "*********Response*********")
+                    window.location = "{{url('dashboard')}}"
+                    Swal.fire({
+                        icon: "success",
+                        title: "Se guardó correctamente",
+                        showConfirmButton: false,
+                        timer: 2500,
+                    });
+                    var message = response.data.message
+                        ? response.data.message
+                        : "Se actualizó correctamente el registro";
+                    miniToastr.success(message);
+
+                })
+                    .catch(function (error) {
+                    console.log(error.response, "response Guardar")
+                    if (error.response.status === 422) {
+                        console.log(error.response.data.errors);
+                    }
                 })
             }
             })
@@ -305,6 +320,79 @@ var metodo = {
             })
         });
     });
+
+
+
+    $(document).ready( function () {
+        $(document).on('click', '#editar', function () {
+            console.log("Entramos a editar ")
+            metodoEditar.editar();
+        });
+
+    });
+
+    var metodoEditar = {
+        editar:function () {
+
+            const param = {
+
+            }
+
+
+            Swal.fire({
+                //title: '¿Esta seguro?',
+                text: "¿Los datos son correctos?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Guardar',
+                cancelButtonText: 'No estoy seguro/a'
+            }).then((result) => {
+                if (result.isConfirmed) {
+
+                    axios.post("{{route('guardarEdicion')}}",
+                        {
+                            sku: document.getElementById('sku').value,
+                            puntos: document.getElementById('puntos').value,
+                            precioDolares: document.getElementById('precioDolares').value,
+                            precioPesos: document.getElementById('precioPesos').value,
+                            nombreEs: document.getElementById('nombreEs').value,
+                            descripcionCortaEs: document.getElementById('descripcionCortaEs').value,
+                            descripcionLargaEs: document.getElementById('descripcionLargaEs').value,
+                            urlEs: document.getElementById('urlEs').value,
+                            nombreEn: document.getElementById('nombreEn').value,
+                            descripcionCortaEn: document.getElementById('descripcionCortaEn').value,
+                            descripcionLargaEn: document.getElementById('descripcionLargaEn').value,
+                            urlEn: document.getElementById('urlEn').value,
+                        }
+                    ).then(res => {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Se guardó correctamente",
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+                        var message = response.data.message
+                            ? response.data.message
+                            : "Se actualizó correctamente el registro";
+                        miniToastr.success(message);
+                        window.location = "{{url('/dashboard')}}"
+
+                    }).catch(function (error) {
+                        console.log(error.response, "response**")
+                        if (error.response.status === 422) {
+                            console.log(error.response.data.errors);
+
+                        }
+                    })
+                }
+            })
+        }
+
+    }
+
+
 
 
 

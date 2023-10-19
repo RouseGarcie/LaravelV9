@@ -16,18 +16,21 @@
         <script src="{{ asset('js/app.js') }}" defer></script>
     </head>
     <body class="font-sans text-gray-900 antialiased">
+
         <div class="min-h-screen flex flex-col  items-center pt-6 sm:pt-0 bg-gray-100">
-            <div>
-                <a href="/">
-                    aquí va la ruta
-                </a>
-                <a href="/">
-                    aquí va otra cosa
-                </a>
-            </div>
+            <br/>
+            <button onclick="location.href='{{ url('detalleProducto') }}'" type="button" class="btn btn-sm btn-outline-warning"
+            style="color: #ffffff;
+    background: cadetblue;
+    width: 325px;
+    height: 32px; border-radius: 5px;position: absolute; top: 8px">
+                {!! trans('sistema.productos') !!}
+                <i class="fa-brands fa-product-hunt"></i>
+            </button>
 
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
+
             </div>
         </div>
     </body>

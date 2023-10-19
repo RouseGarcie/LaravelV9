@@ -20,6 +20,7 @@ return [
     'activo'=> 'Estatus',
     'acciones'=> 'Acciones',
     'proyeccion'=> 'Proyección de precios ',
+    'detalleProd'=>'Detalle de productos',
 
 
 ];

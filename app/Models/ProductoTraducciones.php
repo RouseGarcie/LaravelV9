@@ -16,6 +16,11 @@ class ProductoTraducciones extends Model
     public static function guardarIngles($datos, $prod)
     {
         $ingles = new productoTraducciones();
+
+        if (isset($params['idEn']) && $params['idEn'] != null){
+            $ingles=self::where('id',$prod['idEn'])->first();
+        }
+
         $ingles -> id_producto = $prod['id'];
         $ingles -> nombre = $datos['nombreEn'];
         $ingles -> descripcion_corta = $datos['descripcionCortaEn'];
@@ -29,6 +34,10 @@ class ProductoTraducciones extends Model
     {
 
         $espaniol = new productoTraducciones();
+
+        if (isset($params['idEs']) && $params['idEs'] != null){
+            $espaniol=self::where('id',$prod['idEs'])->first();
+        }
         $espaniol -> id_producto = $prod['id'];
         $espaniol -> nombre = $datos['nombreEs'];
         $espaniol -> descripcion_corta = $datos['descripcionCortaEs'];
@@ -48,5 +57,10 @@ class ProductoTraducciones extends Model
     {
         $dato = self::where('id_producto',$id)->where('idioma','en')->first();
         return $dato;
+    }
+
+    public static function eliminarRegistros($id)
+    {
+        self::where('id_producto',$id)->delete();
     }
 }

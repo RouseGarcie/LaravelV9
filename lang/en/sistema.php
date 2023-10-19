@@ -21,4 +21,5 @@ return [
     'activo'=> 'Status',
     'acciones'=> 'Actions',
     'proyeccion'=> 'Price projection ',
+    'detalleProd'=>'Products detail',
 ];

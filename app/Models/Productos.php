@@ -18,6 +18,12 @@ class Productos extends Model
     public static function guardarProducto($producto )
     {
         $prod = new Productos();
+        if (isset($producto['id']) && $producto['id'] != null) {
+
+            $prod = self::where('id', $producto['id'])->first();
+        }
+
+
         $prod -> sku = $producto['sku'];
         $prod -> precio_dolares = $producto['precioDolares'];
         $prod -> precio_pesos = $producto['precioPesos'];
@@ -62,5 +68,10 @@ class Productos extends Model
 
         return $datos;
 
+    }
+
+    public static function eliminarProducto($id)
+    {
+        self::where('id',$id)->delete();
     }
 }

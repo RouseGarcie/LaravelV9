@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\View\View;
 
 class ProductosController extends Controller
@@ -27,6 +28,8 @@ class ProductosController extends Controller
             ->get();
         return view('dashboard', ['productos' => $productos]);
     }
+
+
 
     public function agregar(): View
     {
@@ -74,17 +77,17 @@ class ProductosController extends Controller
             'urlEn' => ['required'],
         ]);
 
-        return redirect('/admin/agregar')->withErrors($validatedData, 'productos');
+      //  return redirect('/admin/agregar')->withErrors($validatedData, 'productos');
 
-      //  return redirect()->back()->withErrors($validatedData,'productos');
 
-       // return $validatedData;
+        return Redirect::back()->withErrors($validatedData, 'productos');
+
     }
 
-    public function guardar(Request $datos):View
+    public function guardar(Request $datos)
     {
 
-     //   try{
+     //  try{
         $this->validaciones($datos);
 
 
@@ -97,9 +100,10 @@ class ProductosController extends Controller
 
           return $this->index();
 
-    /*} catch (\Exception $ex) {
+  /* } catch (\Exception $ex) {
         Log::error($ex->getMessage());
         return Redirect::back()->withInput()->withErrors();
+         return Redirect::back()->with('message','Operation Successful !');
         } */
     }
 
@@ -147,9 +151,9 @@ class ProductosController extends Controller
 
     public function obtenerDetalle($slug):View
     {
-        $news = ProductoTraducciones::join('m_productos as prod', 'prod.id', '=', 'r_producto_traducciones.id' )
+       // dd($slug);
+        $news = ProductoTraducciones::join('m_productos as prod', 'prod.id', '=', 'r_producto_traducciones.id_producto' )
             ->where('url', $slug)->firstOrFail();
-
 
         $prod = [
             "id" => $news->id,
@@ -170,6 +174,106 @@ class ProductosController extends Controller
 
     }
 
+    public function guardarEdicion(Request $datos)
+    {
+
+        /*    $validator = Validator::make($datos->all(), [
+
+                'precioDolares' => 'required|numeric',
+                'precioPesos' => 'required|numeric',
+                'puntos' => 'required|numeric',
+
+                'nombreEs' => 'required|regex:/[^a-zA-Z\s]+/',
+                'descripcionCortaEs' => 'required',
+                'urlEs' => 'required',
+
+                'nombreEn' => 'required|regex:/[^a-zA-Z\s]+/',
+                'descripcionCortaEn' => 'required',
+                'urlEn' => 'required',
+            ])->validateWithBag('productos');
+
+            return redirect('/dashboard')->withErrors($validator, 'productos');
+
+          //  $validatedData = Validator::make($datos->all(), [
+        $validatedData = $datos->validate([
+                'precioDolares' => 'required|numeric',
+                'precioPesos' => 'required|numeric',
+                'puntos' => 'required|numeric',
+
+                'nombreEs' => 'required|regex:/[^a-zA-Z\s]+/',
+                'descripcionCortaEs' => 'required',
+                'urlEs' => 'required',
+
+                'nombreEn' => 'required|regex:/[^a-zA-Z\s]+/',
+                'descripcionCortaEn' => 'required',
+                'urlEn' => 'required',
+            ]);
+
+
+
+            return Redirect::back()->withErrors($validatedData->errors());*/
+
+
+
+        $validatedData = $datos->validateWithBag('productos', [
+
+            'precioDolares' => ['required', 'numeric'],
+            'precioPesos' => ['required', 'numeric'],
+            'puntos' => ['required', 'numeric'],
+
+            'nombreEs' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'descripcionCortaEs' => ['required'],
+            'urlEs' => ['required'],
+
+            'nombreEn' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'descripcionCortaEn' => ['required'],
+            'urlEn' => ['required'],
+        ]);
+        return Redirect::back()->withErrors($validatedData, 'productos');
+
+
+            $prod = Productos::guardarProducto($datos);
+
+            ProductoTraducciones::guardarIngles($datos, $prod);
+            ProductoTraducciones::guardarEspaniol($datos, $prod);
+
+
+            return redirect('/dashboard');
+
+
+
+
+
+
+
+
+
+    }
+
+    public function detalleProducto(): View
+    {
+
+        $productos = DB::table('m_productos')
+            ->join( 'r_producto_traducciones as trad', 'trad.id_producto', '=', 'm_productos.id')
+            ->where('m_productos.registro_activo', 1)
+            ->where( 'trad.idioma', App::getLocale())
+            ->orderBy('m_productos.id')
+            ->get();
+        return view('productos.ListaProductosDetalle', ['productos' => $productos]);
+    }
+
+    public function inactivar(Request $request){
+        $empleado = Productos::where('id', $request->id)->first();
+        $empleado->registro_activo = false;
+        $empleado->save();
+
+        return $this->index();
+    }
+
+    public function eliminar(Request $request){
+       ProductoTraducciones::eliminarRegistros($request->id);
+       Productos::eliminarProducto($request->id);
+    }
 
 
 }

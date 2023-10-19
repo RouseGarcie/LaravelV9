@@ -13,24 +13,24 @@
                     <div class="accordion-body">
                         <div class="row">
                             <div class="col-2">
-                                <label>{!! trans('sistema.sku') !!}: </label><code>"{{old('sku', $prod['sku'])}}"</code>
+                                <label>{!! trans('sistema.sku') !!}: </label><code> "{{old('sku', $prod['sku'])}}"</code>
                             </div>
                             <div class="col-2">
                                 <label >{!! trans('sistema.precioDolares') !!}: </label><code> "{{old('precioDolares', $prod['precioDolares'])}}"</code>
                                 <input hidden id="precioDolares" value="{{old('precioDolares', $prod['precioDolares'])}}">
                             </div>
                             <div class="col-2">
-                                <label>{!! trans('sistema.precioPesos') !!}: </label><code>"{{old('precioPesos', $prod['precioPesos'])}}"</code>
+                                <label>{!! trans('sistema.precioPesos') !!}: </label><code> "{{old('precioPesos', $prod['precioPesos'])}}"</code>
                                 <input hidden id="precioPesos" value="{{old('precioPesos', $prod['precioPesos'])}}">
                             </div>
                             <div class="col-2">
-                                <label>{!! trans('sistema.puntos') !!}: </label><code>"{{old('puntos', $prod['puntos'])}}"</code>
+                                <label>{!! trans('sistema.puntos') !!}: </label><code> "{{old('puntos', $prod['puntos'])}}"</code>
                             </div>
                             <div class="col-2">
-                                <label>{!! trans('sistema.descripcionCorta') !!}: </label><code>"{{old('descripcionCorta', $prod['descripcionCorta'])}}"</code>
+                                <label>{!! trans('sistema.descripcionCorta') !!}: </label><code> "{{old('descripcionCorta', $prod['descripcionCorta'])}}"</code>
                             </div>
                             <div class="col-2">
-                                <label>{!! trans('sistema.descripcionLarga') !!}: </label><code>"{{old('descripcionLarga', $prod['descripcionLarga'])}}"</code>
+                                <label>{!! trans('sistema.descripcionLarga') !!}: </label><code> "{{old('descripcionLarga', $prod['descripcionLarga'])}}"</code>
                             </div>
                         </div>
                     </div>
@@ -47,10 +47,15 @@
 
 
 
-
+                    @if(App::getLocale() == 'es')
                     <div>
                         <canvas id="myChart"></canvas>
                     </div>
+                    @else
+                        <div>
+                            <canvas id="myChartEn"></canvas>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
@@ -60,6 +65,7 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script >
     const ctx = document.getElementById('myChart');
+    const ctxEn = document.getElementById('myChartEn');
 
     let precioDolares = document.getElementById('precioDolares').value;
     let precioPesos = document.getElementById('precioPesos').value;
@@ -69,22 +75,17 @@
     var aumento = 0
     for (let i = 0; i < 6; i++) {
       aumento += 2
-        console.log(aumento, "***")
+
+        precioDolares =parseInt(precioDolares) + parseInt(precioDolares)*aumento/100;
+        precioPesos =parseInt(precioPesos) + parseInt(precioPesos)*aumento/100;
 
         dolares.push(precioDolares)
         pesos.push(precioPesos)
-
-        precioDolares = parseInt(precioDolares)+(aumento/100);
-        precioDolares += i;
-
-        precioPesos = parseInt(precioPesos)+(aumento/100);
-        precioPesos += i;
-
     }
-    console.log(pesos, "pesos")
 
+   const labels = ['Noviembre', 'Diciembre', 'Enero', 'Febrero', 'Marzo', 'Abril'];
     const data = {
-        labels: ['Octubre', 'Noviembre', 'Diciembre', 'Enero', 'Febrero', 'Marzo'],
+        labels: labels,
         datasets: [
             {
                 label: "Pesos",
@@ -92,7 +93,19 @@
                 borderColor: 'rgb(17,215,223)',
                 data: pesos,
             },
-            {
+         /*   {
+                label: "Dolares",
+                backgroundColor: 'rgba(108,185,167,0.8)',
+                borderColor: 'rgb(131,193,23)',
+                data: dolares,
+            }*/
+        ]
+    };
+    const dataEn = {
+        labels: labels,
+        datasets: [
+
+           {
                 label: "Dolares",
                 backgroundColor: 'rgba(108,185,167,0.8)',
                 borderColor: 'rgb(131,193,23)',
@@ -100,6 +113,57 @@
             }
         ]
     };
+
+
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: data,
+
+        options: {
+            animations: {
+                tension: {
+                    duration: 100000000,
+                    easing: 'easeOutSine',
+                    from: 1,
+                    to: 0,
+                    loop: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                    /*min: 0,
+                    max: 100 */
+                }
+            }
+        }
+    });
+
+
+    new Chart(ctxEn, {
+        type: 'bar',
+        data: dataEn,
+
+        options: {
+            animations: {
+                tension: {
+                    duration: 100000000,
+                    easing: 'easeOutSine',
+                    from: 1,
+                    to: 0,
+                    loop: true
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: true
+                    /*min: 0,
+                    max: 100 */
+                }
+            }
+        }
+    });
 
 
 
