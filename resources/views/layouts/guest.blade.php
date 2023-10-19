@@ -32,7 +32,7 @@
 
 
             @if(App::getLocale() == 'es')
-                <a style="text-decoration:none;color: #ffffff;
+                <a style="text-decoration:none;color: #fdf9f9e6;
                         background: #413b3b;
                         width: 134px;
                         height: 27px; border-radius: 5px;position: absolute; top: 49px; right: 459px"
@@ -44,7 +44,7 @@
                 </a>
 
             @else
-                <a style="text-decoration:none;color: #ffffff;
+                <a style="text-decoration:none;color: #fdf9f9e6;
                         background: #413b3b;
                         width: 134px;
                         height: 27px; border-radius: 5px;position: absolute; top: 49px; right: 459px"
