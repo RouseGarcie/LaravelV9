@@ -132,14 +132,15 @@
                     confirmButtonText: 'De acuerdo',
                     cancelButtonText: 'No estoy seguro/a'
                 }).then((result) => {
+                    if (result.isConfirmed) {
+                        //Inactivar
+                        axios.put("{{  route('inactivar')}}", {id}).then((response) => {
+                            console.log(response.data);
+                            window.location = "{{url('dashboard')}}"
+                            Swal.fire('Elemento Inactivado', '', 'success')
 
-                    //Inactivar
-                    axios.put( "{{  route('inactivar')}}" , {id} ).then((response) => {
-                        console.log(response.data);
-                        window.location = "{{url('dashboard')}}"
-                        Swal.fire('Elemento Inactivado', '', 'success')
-
-                    });
+                        });
+                    }
 
                 })
 
@@ -161,14 +162,16 @@
                     confirmButtonText: 'De acuerdo',
                     cancelButtonText: 'No estoy seguro/a'
                 }).then((result) => {
+                    if(result.isConfirmed){
+                        //Eliminar
+                        axios.put( "{{  route('eliminar')}}", {id} ).then((response) => {
+                            console.log(response.data);
+                            window.location = "{{url('dashboard')}}"
+                            Swal.fire('Elemento Eliminado', '', 'success')
 
-                    //Eliminar
-                    axios.put( "{{  route('eliminar')}}", {id} ).then((response) => {
-                        console.log(response.data);
-                        window.location = "{{url('dashboard')}}"
-                        Swal.fire('Elemento Eliminado', '', 'success')
+                        });
+                    }
 
-                    });
 
                 })
             }

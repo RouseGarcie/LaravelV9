@@ -13,10 +13,11 @@ class ProductoTraducciones extends Model
     protected $primaryKey = 'id';
     public $timestamps = false;
 
-    public static function guardarIngles($datos, $prod)
+    public static function guardarIngles($datos, $prod, $nuevo)
     {
+
         $ingles = new productoTraducciones();
-        if (isset($datos['urlEn']) && $datos['urlEn'] != null){
+        if (isset($datos['urlEn']) && $datos['urlEn'] != null && !$nuevo ){
             $ingles=self::where('id_producto',$prod['id'])->where('idioma', 'en')->first();
         }
 
@@ -29,12 +30,12 @@ class ProductoTraducciones extends Model
         $ingles -> save();
     }
 
-    public static function guardarEspaniol($datos, $prod)
+    public static function guardarEspaniol($datos, $prod, $nuevo)
     {
 
         $espaniol = new productoTraducciones();
 
-        if (isset($datos['urlEs']) && $datos['urlEs'] != null){
+        if (isset($datos['urlEs']) && $datos['urlEs'] != null && !$nuevo){
             $espaniol=self::where('id_producto',$prod['id'])->where('idioma', 'es')->first();
         }
 

@@ -16,6 +16,12 @@
 <!-- Navigation-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container px-4 px-lg-5">
+        <div style="position: relative; left: -40px;">
+            <button onclick="location.href='{{ url('login') }}'" class="btn btn-outline-secondary">
+                {!! trans('sistema.aSesion') !!}
+            </button>
+        </div>
+
         <a class="navbar-brand" >{!! trans('sistema.detalleProd') !!}</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -31,21 +37,28 @@
             </ul>
             <form class="d-flex">
                 @if(App::getLocale() == 'es')
-                    <a style="text-decoration: none;color: #0c0c0c"
-                       href="{{url('/cambiar/idioma?idioma=en')}}" >
+                    <a style="text-decoration: none;color: #1a1919;"
 
-                        <span> {!! trans('sistema.idioma') !!}</span>
+                       type="button"
+                       href="{{url('/cambiar/idioma?idioma=en')}}" >
+                        <span>  {!! trans('sistema.idioma') !!}</span>
                         <i class="fa-solid fa-earth-americas"></i>
                     </a>
 
                 @else
                     <a style="text-decoration: none;color: #0c0c0c"
+                       type="button"
                        href="{{url('/cambiar/idioma?idioma=es')}}" >
 
                         <span> {!! trans('sistema.idioma') !!}</span>
                         <i class="fa-solid fa-earth-americas"></i>
                     </a>
                 @endif
+
+
+
+
+
             </form>
         </div>
     </div>
@@ -81,9 +94,9 @@
                             </div>
                         </div>
                         <!-- Product actions-->
-                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                       <!-- <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
                             <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">View options</a></div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
                 @endforeach

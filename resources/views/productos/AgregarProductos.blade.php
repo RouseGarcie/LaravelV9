@@ -12,15 +12,8 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
 
-                @if($errors->productos->any())
-                    *******************
-                    @foreach($errors->productos->errors as $p)
-                        {{$p}}
-                    @endforeach
-                @endif
 
-
-                    <form id="formProd" >
+            <form id="formProd" >
                         @method('post')
                         @csrf
 
@@ -376,22 +369,51 @@ var metodo = {
                             urlEn: document.getElementById('urlEn').value,
                         }
                     ).then(res => {
-                        Swal.fire({
-                            icon: "success",
-                            title: "Se guardó correctamente",
-                            showConfirmButton: false,
-                            timer: 2500,
-                        });
-                        var message = response.data.message
-                            ? response.data.message
-                            : "Se actualizó correctamente el registro";
-                        miniToastr.success(message);
-                        window.location = "{{url('/dashboard')}}"
+
+                        if(res.data.status){
+                                Swal.fire({
+                                    icon: "success",
+                                    title: "Se guardó correctamente",
+                                    showConfirmButton: false,
+                                    timer: 2500,
+                                });
+                                var message = res.data.msg
+                                    ? res.data.msg
+                                    : "Se actualizó correctamente el registro";
+
+                            window.location.href = "{{url('/dashboard')}}"
+
+                        }else {
+                            console.log(res.data.msg, "else")
+                            let mensajesError = res.data.msg
+                            let mensaje = '';
+
+                            mensajesError.forEach( m => {
+                                mensaje += m + '</br>';
+                            })
+
+
+                            Swal.fire({
+                                title: '',
+                                icon: 'error',
+
+                                html: mensaje ,
+                                focusConfirm: false,
+                            })
+
+
+
+                        }
+
+
+
+
 
                     }).catch(function (error) {
-                        console.log(error.response, "response**")
-                        if (error.response.status === 422) {
-                            console.log(error.response.data.errors);
+                        console.log(error, "response**")
+                        if (error.status === 422) {
+                            alert(error )
+                            console.log(error.status);
 
                         }
                     })

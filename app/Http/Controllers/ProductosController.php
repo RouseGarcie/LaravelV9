@@ -68,11 +68,11 @@ class ProductosController extends Controller
             'precioPesos' => ['required', 'numeric'],
             'puntos' => ['required', 'numeric'],
 
-            'nombreEs' => ['required', 'regex:/^[a-zA-Z-]+$/'],
+            'nombreEs' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
             'descripcionCortaEs' => ['required'],
             'urlEs' => ['required'],
 
-            'nombreEn' => ['required', 'regex:/^[a-zA-Z-]+$/'],
+            'nombreEn' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
             'descripcionCortaEn' => ['required'],
             'urlEn' => ['required'],
         ]);
@@ -93,8 +93,8 @@ class ProductosController extends Controller
 
            $prod = Productos::guardarProducto($datos);
 
-            ProductoTraducciones::guardarIngles($datos, $prod);
-            ProductoTraducciones::guardarEspaniol($datos, $prod);
+            ProductoTraducciones::guardarIngles($datos, $prod, true);
+            ProductoTraducciones::guardarEspaniol($datos, $prod, true);
 
 
 
@@ -177,77 +177,41 @@ class ProductosController extends Controller
     public function guardarEdicion(Request $datos)
     {
 
-        /*    $validator = Validator::make($datos->all(), [
+
+
+            $validatedData =  \Validator::make($datos->all(), [
 
                 'precioDolares' => 'required|numeric',
                 'precioPesos' => 'required|numeric',
                 'puntos' => 'required|numeric',
 
-                'nombreEs' => 'required|regex:/[^a-zA-Z]+/',
+                'nombreEs' => 'required|regex:/^[a-zA-Z-]+$/',
                 'descripcionCortaEs' => 'required',
                 'urlEs' => 'required',
 
-                'nombreEn' => 'required|regex:/[^a-zA-Z\s]+/',
-                'descripcionCortaEn' => 'required',
-                'urlEn' => 'required',
-            ])->validateWithBag('productos');
-
-            return redirect('/dashboard')->withErrors($validator, 'productos');
-
-          //  $validatedData = Validator::make($datos->all(), [
-        $validatedData = $datos->validate([
-                'precioDolares' => 'required|numeric',
-                'precioPesos' => 'required|numeric',
-                'puntos' => 'required|numeric',
-
-                'nombreEs' => 'required|regex:/[^a-zA-Z\s]+/',
-                'descripcionCortaEs' => 'required',
-                'urlEs' => 'required',
-
-                'nombreEn' => 'required|regex:/[^a-zA-Z\s]+/',
+                'nombreEn' => 'required|regex:/^[a-zA-Z-]+$/',
                 'descripcionCortaEn' => 'required',
                 'urlEn' => 'required',
             ]);
 
+        $respuesta = ['status' => true];
+        if ($validatedData->fails()) {
+            $mensajes = $validatedData->errors()->all();
+            $respuesta['status'] = false;
+            $respuesta ['msg'] = $mensajes;
 
 
-            return Redirect::back()->withErrors($validatedData->errors());*/
-
-
-
-        $validatedData = $datos->validateWithBag('productos', [
-
-            'precioDolares' => ['required', 'numeric'],
-            'precioPesos' => ['required', 'numeric'],
-            'puntos' => ['required', 'numeric'],
-
-            'nombreEs' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
-            'descripcionCortaEs' => ['required'],
-            'urlEs' => ['required'],
-
-            'nombreEn' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
-            'descripcionCortaEn' => ['required'],
-            'urlEn' => ['required'],
-        ]);
-      //  return Redirect::back()->withErrors($validatedData, 'productos');
-
+        } else {
 
             $prod = Productos::guardarProducto($datos);
 
+            ProductoTraducciones::guardarIngles($datos, $prod, false);
+            ProductoTraducciones::guardarEspaniol($datos, $prod, false);
 
-            ProductoTraducciones::guardarIngles($datos, $prod);
-            ProductoTraducciones::guardarEspaniol($datos, $prod);
-
-
-            return redirect('/dashboard');
-
-
-
-
-
-
-
-
+            $respuesta['msg'] = ['Se guardó correctamente'];
+        }
+        echo json_encode($respuesta);
+        exit;
 
     }
 

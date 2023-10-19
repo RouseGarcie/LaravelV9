@@ -23,6 +23,7 @@ return [
     'proyeccion'=> 'Price projection ',
     'detalleProd'=>'Products detail',
     'cabeceraExterna'=>'Shop in style',
-    'textoCabecera'=>'Moda es lo que compras, estilo es lo que haces con eso.',
+    'textoCabecera'=>'Fashion is what you buy, style is what you do with it.',
+    'aSesion'=>'Log in',
 
 ];
