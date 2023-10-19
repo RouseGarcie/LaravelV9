@@ -26,6 +26,12 @@ return [
     'textoCabecera'=>'Fashion is what you buy, style is what you do with it.',
     'aSesion'=>'Log in',
     'perfil'=>'Profile',
-    'salir'=>'log Out',
+    'salir'=>'Log Out',
+    'buscar'=>'Search',
+    'ver'=>'Look',
+    'anterior'=>'Previous',
+    'siguiente'=>'Next',
+    'mostrando'=>'Showing',
+    'registros'=>'Records',
 
 ];

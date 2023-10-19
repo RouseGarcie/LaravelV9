@@ -88,6 +88,9 @@
 
                 </div>
             </div>
+
+
+
         </div>
     </div>
 </x-app-layout>
@@ -107,6 +110,22 @@
     $(document).ready(function () {
         $('table.display').DataTable();
     });
+
+    $('#myTable').DataTable( {
+        language: {
+            search:         "{!! trans('sistema.buscar') !!} &nbsp;:",
+            lengthMenu:    "{!! trans('sistema.ver') !!} _MENU_ ",
+            info:           "{!! trans('sistema.mostrando') !!} _START_ - _END_ de _TOTAL_ {!! trans('sistema.registros') !!}",
+
+            paginate: {
+                first:      "Premier",
+                previous:   "{!! trans('sistema.anterior') !!} ",
+                next:       " {!! trans('sistema.siguiente') !!} ",
+                last:       "Dernier"
+            },
+        }
+    } );
+
 
 
 
@@ -188,6 +207,6 @@
         background-color: transparent;
         color: inherit;
         padding: 4px;
-        width: 45%;
+        width: 100%;
     }
 </style>

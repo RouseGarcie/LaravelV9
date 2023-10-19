@@ -26,6 +26,11 @@ return [
     'aSesion'=>'Iniciar sesión',
     'perfil'=>'Perfil',
     'salir'=>'Cerrar sesión',
-
+    'buscar'=>'Buscar',
+    'ver'=>'Ver',
+    'anterior'=>'Anterior',
+    'siguiente'=>'Siguiente',
+    'mostrando'=>'Mostrando',
+    'registros'=>'Registros',
 
 ];
