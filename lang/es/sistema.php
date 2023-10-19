@@ -32,5 +32,12 @@ return [
     'siguiente'=>'Siguiente',
     'mostrando'=>'Mostrando',
     'registros'=>'Registros',
+    'email'=>'Correo',
+    'contrasenia'=>'Contraseña',
+    'recordar'=>'Recuérdame',
+    'olvidar'=>'¿Olvidaste la contraseña?',
+    'login'=>'Entrar',
+
+
 
 ];

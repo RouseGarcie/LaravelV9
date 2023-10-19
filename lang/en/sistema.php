@@ -33,5 +33,11 @@ return [
     'siguiente'=>'Next',
     'mostrando'=>'Showing',
     'registros'=>'Records',
+    'email'=>'Email',
+    'contrasenia'=>'Password',
+    'recordar'=>'Remember me',
+    'olvidar'=>'Forgot your password?',
+    'login'=>'Login',
+
 
 ];
