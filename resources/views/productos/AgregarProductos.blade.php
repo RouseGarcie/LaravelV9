@@ -245,6 +245,7 @@
     var laravelToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     $(document).ready( function () {
         $(document).on('click', '#guardar', function () {
+            console.log("Hacemos algo ?? ")
             metodo.probar();
         });
 
@@ -282,17 +283,36 @@ var metodo = {
                         urlEn: document.getElementById('urlEn').value,
                     }
                 ).then(res => {
-                    window.location = "{{url('dashboard')}}"
-                    Swal.fire({
-                        icon: "success",
-                        title: "Se guardó correctamente",
-                        showConfirmButton: false,
-                        timer: 2500,
-                    });
-                    var message = response.data.message
-                        ? response.data.message
-                        : "Se actualizó correctamente el registro";
-                    miniToastr.success(message);
+                    if(res.data.status){
+                        Swal.fire({
+                            icon: "success",
+                            title: "Se guardó correctamente",
+                            showConfirmButton: false,
+                            timer: 2500,
+                        });
+
+                        window.location.href = "{{url('/dashboard')}}"
+
+                    }else {
+                        let mensajesError = res.data.msg
+                        let mensaje = '';
+
+                        mensajesError.forEach( m => {
+                            mensaje += m + '</br>';
+                        })
+
+
+                        Swal.fire({
+                            title: '',
+                            icon: 'error',
+
+                            html: mensaje ,
+                            focusConfirm: false,
+                        })
+
+
+
+                    }
 
                 })
                     .catch(function (error) {
@@ -325,6 +345,7 @@ var metodo = {
 
     $(document).ready( function () {
         $(document).on('click', '#editar', function () {
+            console.log("Entramos a editar ")
             metodoEditar.editar();
         });
 
@@ -371,7 +392,7 @@ var metodo = {
                         if(res.data.status){
                                 Swal.fire({
                                     icon: "success",
-                                    title: "Se guardó correctamente",
+                                    title: "Se actualizó correctamente",
                                     showConfirmButton: false,
                                     timer: 2500,
                                 });

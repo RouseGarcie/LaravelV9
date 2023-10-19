@@ -88,17 +88,43 @@ class ProductosController extends Controller
     {
 
      //  try{
-        $this->validaciones($datos);
+     //   $this->validaciones($datos);
+
+        $validatedData =  \Validator::make($datos->all(), [
+            'sku' => ['required', 'unique:m_productos,sku'],
+            'precioDolares' => 'required|numeric',
+            'precioPesos' => 'required|numeric',
+            'puntos' => 'required|numeric',
+
+            'nombreEs' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+            'descripcionCortaEs' => 'required',
+            'urlEs' => 'required',
+
+            'nombreEn' => 'required|regex:/^[a-zA-Z0-9-]+$/',
+            'descripcionCortaEn' => 'required',
+            'urlEn' => 'required',
+        ]);
+
+        $respuesta = ['status' => true];
+        if ($validatedData->fails()) {
+            $mensajes = $validatedData->errors()->all();
+            $respuesta['status'] = false;
+            $respuesta ['msg'] = $mensajes;
 
 
-           $prod = Productos::guardarProducto($datos);
+        } else {
+
+
+            $prod = Productos::guardarProducto($datos);
 
             ProductoTraducciones::guardarIngles($datos, $prod, true);
             ProductoTraducciones::guardarEspaniol($datos, $prod, true);
 
 
-
-          return $this->index();
+            $respuesta['msg'] = ['Se guardó correctamente'];
+        }
+        echo json_encode($respuesta);
+        exit;
 
   /* } catch (\Exception $ex) {
         Log::error($ex->getMessage());
