@@ -56,7 +56,7 @@
 
                     <x-slot name="content">
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            {!! trans('sistema.perfil') !!}
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -66,7 +66,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {!! trans('sistema.salir') !!}
                             </x-dropdown-link>
                         </form>
                     </x-slot>

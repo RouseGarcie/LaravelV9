@@ -25,5 +25,7 @@ return [
     'cabeceraExterna'=>'Shop in style',
     'textoCabecera'=>'Fashion is what you buy, style is what you do with it.',
     'aSesion'=>'Log in',
+    'perfil'=>'Profile',
+    'salir'=>'log Out',
 
 ];

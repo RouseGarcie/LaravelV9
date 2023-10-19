@@ -24,6 +24,8 @@ return [
     'cabeceraExterna'=>'Compra con estilo',
     'textoCabecera'=>'Moda es lo que compras, estilo es lo que haces con eso.',
     'aSesion'=>'Iniciar sesión',
+    'perfil'=>'Perfil',
+    'salir'=>'Cerrar sesión',
 
 
 ];
