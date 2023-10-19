@@ -185,11 +185,11 @@ class ProductosController extends Controller
                 'precioPesos' => 'required|numeric',
                 'puntos' => 'required|numeric',
 
-                'nombreEs' => 'required|regex:/^[a-zA-Z-]+$/',
+                'nombreEs' => 'required|regex:/^[a-zA-Z0-9-]+$/',
                 'descripcionCortaEs' => 'required',
                 'urlEs' => 'required',
 
-                'nombreEn' => 'required|regex:/^[a-zA-Z-]+$/',
+                'nombreEn' => 'required|regex:/^[a-zA-Z0-9-]+$/',
                 'descripcionCortaEn' => 'required',
                 'urlEn' => 'required',
             ]);

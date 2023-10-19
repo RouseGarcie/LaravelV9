@@ -245,7 +245,6 @@
     var laravelToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
     $(document).ready( function () {
         $(document).on('click', '#guardar', function () {
-            console.log("Hacemos algo ?? ")
             metodo.probar();
         });
 
@@ -326,7 +325,6 @@ var metodo = {
 
     $(document).ready( function () {
         $(document).on('click', '#editar', function () {
-            console.log("Entramos a editar ")
             metodoEditar.editar();
         });
 
@@ -384,7 +382,6 @@ var metodo = {
                             window.location.href = "{{url('/dashboard')}}"
 
                         }else {
-                            console.log(res.data.msg, "else")
                             let mensajesError = res.data.msg
                             let mensaje = '';
 
@@ -410,7 +407,6 @@ var metodo = {
 
 
                     }).catch(function (error) {
-                        console.log(error, "response**")
                         if (error.status === 422) {
                             alert(error )
                             console.log(error.status);
