@@ -28,6 +28,42 @@
                 <i class="fa-brands fa-product-hunt"></i>
             </button>
 
+
+
+
+            @if(App::getLocale() == 'es')
+                <a style="text-decoration:none;color: #ffffff;
+                        background: #413b3b;
+                        width: 134px;
+                        height: 27px; border-radius: 5px;position: absolute; top: 49px; right: 459px"
+
+                   type="button"
+                   href="{{url('/cambiar/idioma?idioma=en')}}" >
+                    <span>  {!! trans('sistema.idioma') !!}</span>
+                    <i class="fa-solid fa-earth-americas"></i>
+                </a>
+
+            @else
+                <a style="text-decoration:none;color: #ffffff;
+                        background: #413b3b;
+                        width: 134px;
+                        height: 27px; border-radius: 5px;position: absolute; top: 49px; right: 459px"
+                   type="button"
+                   href="{{url('/cambiar/idioma?idioma=es')}}" >
+
+                    <span> {!! trans('sistema.idioma') !!}</span>
+                    <i class="fa-solid fa-earth-americas"></i>
+                </a>
+            @endif
+
+
+
+
+
+
+
+
+
             <div class="w-full sm:max-w-md mt-6 px-6 py-4 bg-white shadow-md overflow-hidden sm:rounded-lg">
                 {{ $slot }}
 
