@@ -32,7 +32,7 @@
             <form class="d-flex">
                 @if(App::getLocale() == 'es')
                     <a style="text-decoration: none;color: #0c0c0c"
-                       href="{{url('/admin/cambiar/idioma?idioma=en')}}" >
+                       href="{{url('/cambiar/idioma?idioma=en')}}" >
 
                         <span> {!! trans('sistema.idioma') !!}</span>
                         <i class="fa-solid fa-earth-americas"></i>
@@ -40,7 +40,7 @@
 
                 @else
                     <a style="text-decoration: none;color: #0c0c0c"
-                       href="{{url('/admin/cambiar/idioma?idioma=es')}}" >
+                       href="{{url('/cambiar/idioma?idioma=es')}}" >
 
                         <span> {!! trans('sistema.idioma') !!}</span>
                         <i class="fa-solid fa-earth-americas"></i>
@@ -54,8 +54,8 @@
 <header class="bg-dark py-3">
     <div class="container px-4 px-lg-5 my-5">
         <div class="text-center text-white">
-            <h1 class="display-4 fw-bolder">Shop in style</h1>
-            <p class="lead fw-normal text-white-50 mb-0">With this shop hompeage template</p>
+            <h1 class="display-4 fw-bolder">{!! trans('sistema.cabeceraExterna') !!}</h1>
+            <p class="lead fw-normal text-white-50 mb-0">{!! trans('sistema.textoCabecera') !!}</p>
         </div>
     </div>
 </header>

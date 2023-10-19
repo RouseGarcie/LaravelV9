@@ -68,11 +68,11 @@ class ProductosController extends Controller
             'precioPesos' => ['required', 'numeric'],
             'puntos' => ['required', 'numeric'],
 
-            'nombreEs' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'nombreEs' => ['required', 'regex:/^[a-zA-Z-]+$/'],
             'descripcionCortaEs' => ['required'],
             'urlEs' => ['required'],
 
-            'nombreEn' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'nombreEn' => ['required', 'regex:/^[a-zA-Z-]+$/'],
             'descripcionCortaEn' => ['required'],
             'urlEn' => ['required'],
         ]);
@@ -183,7 +183,7 @@ class ProductosController extends Controller
                 'precioPesos' => 'required|numeric',
                 'puntos' => 'required|numeric',
 
-                'nombreEs' => 'required|regex:/[^a-zA-Z\s]+/',
+                'nombreEs' => 'required|regex:/[^a-zA-Z]+/',
                 'descripcionCortaEs' => 'required',
                 'urlEs' => 'required',
 
@@ -221,18 +221,19 @@ class ProductosController extends Controller
             'precioPesos' => ['required', 'numeric'],
             'puntos' => ['required', 'numeric'],
 
-            'nombreEs' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'nombreEs' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'descripcionCortaEs' => ['required'],
             'urlEs' => ['required'],
 
-            'nombreEn' => ['required', 'regex:/^[a-zA-Z0-9-]+$/'],
+            'nombreEn' => ['required', 'regex:/^[a-zA-Z\s]+$/'],
             'descripcionCortaEn' => ['required'],
             'urlEn' => ['required'],
         ]);
-        return Redirect::back()->withErrors($validatedData, 'productos');
+      //  return Redirect::back()->withErrors($validatedData, 'productos');
 
 
             $prod = Productos::guardarProducto($datos);
+
 
             ProductoTraducciones::guardarIngles($datos, $prod);
             ProductoTraducciones::guardarEspaniol($datos, $prod);

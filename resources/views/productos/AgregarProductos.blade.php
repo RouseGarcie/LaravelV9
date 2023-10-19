@@ -25,6 +25,14 @@
                         @csrf
 
                         <div class="row ">
+                            <input type="text"
+                                   name="idProd"
+                                   id="idProd"
+                                   class="form-control"
+                                   maxlength="100"
+                                   value="{{old('id', $prod['id'])}}"
+                                    hidden
+                                   >
                             <div class="col-6">
                                 <label for="sku"> {!! trans('sistema.sku') !!} </label>
                                 <input type="text"
@@ -354,6 +362,7 @@ var metodo = {
                     axios.post("{{route('guardarEdicion')}}",
                         {
                             sku: document.getElementById('sku').value,
+                            idProducto: document.getElementById('idProd').value,
                             puntos: document.getElementById('puntos').value,
                             precioDolares: document.getElementById('precioDolares').value,
                             precioPesos: document.getElementById('precioPesos').value,

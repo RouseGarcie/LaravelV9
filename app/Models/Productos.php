@@ -17,10 +17,12 @@ class Productos extends Model
 
     public static function guardarProducto($producto )
     {
-        $prod = new Productos();
-        if (isset($producto['id']) && $producto['id'] != null) {
 
-            $prod = self::where('id', $producto['id'])->first();
+        $prod = new Productos();
+        if (isset($producto['idProducto']) && $producto['idProducto'] != null) {
+
+            $prod = self::where('id', $producto['idProducto'])->first();
+
         }
 
 

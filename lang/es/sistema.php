@@ -21,6 +21,8 @@ return [
     'acciones'=> 'Acciones',
     'proyeccion'=> 'Proyección de precios ',
     'detalleProd'=>'Detalle de productos',
+    'cabeceraExterna'=>'Compra con estilo',
+    'textoCabecera'=>'Moda es lo que compras, estilo es lo que haces con eso.',
 
 
 ];

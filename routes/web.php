@@ -53,3 +53,4 @@ require __DIR__.'/auth.php';
 
 
 Route::get('/detalleProducto', [\App\Http\Controllers\ProductosController::class, 'detalleProducto'])->name('detalleProducto');
+Route::get('/cambiar/idioma', [\App\Http\Controllers\SistemaGeneralController::class, 'cambiarIdioma'])->name('cambiarIdioma');

@@ -136,7 +136,9 @@
                     //Inactivar
                     axios.put( "{{  route('inactivar')}}" , {id} ).then((response) => {
                         console.log(response.data);
+                        window.location = "{{url('dashboard')}}"
                         Swal.fire('Elemento Inactivado', '', 'success')
+
                     });
 
                 })
@@ -163,7 +165,9 @@
                     //Eliminar
                     axios.put( "{{  route('eliminar')}}", {id} ).then((response) => {
                         console.log(response.data);
+                        window.location = "{{url('dashboard')}}"
                         Swal.fire('Elemento Eliminado', '', 'success')
+
                     });
 
                 })

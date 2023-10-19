@@ -16,9 +16,8 @@ class ProductoTraducciones extends Model
     public static function guardarIngles($datos, $prod)
     {
         $ingles = new productoTraducciones();
-
-        if (isset($params['idEn']) && $params['idEn'] != null){
-            $ingles=self::where('id',$prod['idEn'])->first();
+        if (isset($datos['urlEn']) && $datos['urlEn'] != null){
+            $ingles=self::where('id_producto',$prod['id'])->where('idioma', 'en')->first();
         }
 
         $ingles -> id_producto = $prod['id'];
@@ -35,9 +34,10 @@ class ProductoTraducciones extends Model
 
         $espaniol = new productoTraducciones();
 
-        if (isset($params['idEs']) && $params['idEs'] != null){
-            $espaniol=self::where('id',$prod['idEs'])->first();
+        if (isset($datos['urlEs']) && $datos['urlEs'] != null){
+            $espaniol=self::where('id_producto',$prod['id'])->where('idioma', 'es')->first();
         }
+
         $espaniol -> id_producto = $prod['id'];
         $espaniol -> nombre = $datos['nombreEs'];
         $espaniol -> descripcion_corta = $datos['descripcionCortaEs'];
